@@ -79,7 +79,7 @@ export function sortSpecies(speciesList, sortBy) {
     case 'name_tr':
       return sorted.sort((a, b) => (a.name_tr || '').localeCompare(b.name_tr || ''));
     case 'care_level': {
-      const order = { 'Easy': 1, 'Moderate': 2, 'Difficult': 3, 'Expert Only': 4, 'Expert': 4 };
+      const order = { 'Kolay': 1, 'Orta': 2, 'Zor': 3, 'Sadece Uzman': 4, 'Uzman': 4 };
       return sorted.sort((a, b) => (order[a.care_level] || 5) - (order[b.care_level] || 5));
     }
     case 'max_size': {

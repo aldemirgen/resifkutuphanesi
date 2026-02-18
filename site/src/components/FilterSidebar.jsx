@@ -1,4 +1,4 @@
-import { UI_TEXT, CARE_LEVELS, TEMPERAMENTS, REEF_COMPAT } from '../utils/translations';
+import { UI_TEXT } from '../utils/translations';
 
 export default function FilterSidebar({
   filters,
@@ -62,7 +62,7 @@ export default function FilterSidebar({
                 className={`filter-btn ${filters.careLevel === level ? 'active' : ''}`}
                 onClick={() => handleChange('careLevel', level)}
               >
-                {CARE_LEVELS[level] || level}
+                {level}
               </button>
             ))}
           </div>
@@ -79,7 +79,7 @@ export default function FilterSidebar({
                 className={`filter-btn ${filters.temperament === temp ? 'active' : ''}`}
                 onClick={() => handleChange('temperament', temp)}
               >
-                {TEMPERAMENTS[temp] || temp}
+                {temp}
               </button>
             ))}
           </div>
@@ -96,7 +96,7 @@ export default function FilterSidebar({
                 className={`filter-btn ${filters.reefCompatible === opt ? 'active' : ''}`}
                 onClick={() => handleChange('reefCompatible', opt)}
               >
-                {REEF_COMPAT[opt] || opt}
+                {opt}
               </button>
             ))}
           </div>
