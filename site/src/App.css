@@ -1148,3 +1148,83 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--ocean-600);
 }
+
+/* ============================================
+   Search Autocomplete Dropdown
+   ============================================ */
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--ocean-800);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+  background: var(--ocean-700);
+  border-left-color: var(--turquoise-500);
+}
+
+.suggestion-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.suggestion-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.suggestion-name {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestion-sci {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestion-cat {
+  color: var(--turquoise-400);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
+/* Navbar dropdown — daha dar, sağa hizalı */
+.navbar-search .search-suggestions {
+  min-width: 320px;
+  right: 0;
+  left: auto;
+}
