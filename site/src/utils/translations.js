@@ -93,7 +93,7 @@ export const UI_TEXT = {
   loading: 'Yükleniyor...',
   error: 'Bir hata oluştu',
   showingResults: 'sonuç gösteriliyor',
-  footer: '© 2025 Resif Kütüphanesi | resifkutuphanesi.com. Veriler LiveAquaria.com kaynaklıdır.',
+  footer: '© 2025 Resif Kütüphanesi | resifkutuphanesi.com',
   all: 'Tümü',
 };
 
