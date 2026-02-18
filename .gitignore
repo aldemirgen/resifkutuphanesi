@@ -1,0 +1,21 @@
+# Bağımlılıklar
+node_modules/
+site/node_modules/
+
+# Veritabanı ve gizli dosyalar
+server/database.sqlite
+.env
+
+# Build çıktısı
+site/dist/
+
+# Scraper indirilen görseller (CDN URL'leri kullanılıyor, gerek yok)
+scraper/data/images/
+
+# Geliştirici araçları
+.claude/
+nul
+
+# OS dosyaları
+.DS_Store
+Thumbs.db

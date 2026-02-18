@@ -1,0 +1,1150 @@
+/* ============================================
+   Deniz Yaşamı Kütüphanesi - Ocean Theme CSS
+   ============================================ */
+
+:root {
+  --ocean-900: #0a1628;
+  --ocean-800: #0f2442;
+  --ocean-700: #153260;
+  --ocean-600: #1a4480;
+  --ocean-500: #2563a8;
+  --ocean-400: #3b82c4;
+  --ocean-300: #60a5e0;
+  --ocean-200: #93c5fd;
+  --ocean-100: #c4dcf5;
+  --ocean-50: #e8f2fc;
+
+  --turquoise-600: #0d9488;
+  --turquoise-500: #14b8a6;
+  --turquoise-400: #2dd4bf;
+  --turquoise-300: #5eead4;
+  --turquoise-200: #99f6e4;
+
+  --sand-100: #fefce8;
+  --sand-200: #fef9c3;
+  --coral-500: #f97316;
+  --coral-400: #fb923c;
+  --red-500: #ef4444;
+  --green-500: #22c55e;
+
+  --text-primary: #f0f6ff;
+  --text-secondary: #94a3c8;
+  --text-muted: #637899;
+  --bg-primary: #060e1a;
+  --bg-card: #0d1b30;
+  --bg-card-hover: #132744;
+  --border-color: #1e3a5f;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+}
+
+/* ============================================
+   Reset & Base
+   ============================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ocean-300);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--turquoise-400);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================================
+   App Layout
+   ============================================ */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ============================================
+   Navbar
+   ============================================ */
+
+.navbar {
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.navbar-brand:hover {
+  color: var(--turquoise-400);
+}
+
+.navbar-icon {
+  font-size: 1.4rem;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 24px;
+}
+
+.navbar-links a {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  color: var(--text-primary);
+  border-bottom-color: var(--turquoise-500);
+}
+
+.navbar-search {
+  margin-left: auto;
+  display: flex;
+  position: relative;
+}
+
+.navbar-search input {
+  background: var(--ocean-800);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  padding: 8px 40px 8px 14px;
+  font-size: 0.85rem;
+  width: 200px;
+  transition: all 0.3s;
+  font-family: var(--font-sans);
+}
+
+.navbar-search input:focus {
+  outline: none;
+  width: 280px;
+  border-color: var(--turquoise-500);
+  background: var(--ocean-700);
+}
+
+.navbar-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.navbar-search button {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search button:hover {
+  color: var(--turquoise-400);
+}
+
+/* ============================================
+   Hero Section
+   ============================================ */
+
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--ocean-900) 0%, var(--ocean-700) 50%, var(--ocean-800) 100%);
+  border-radius: var(--radius-xl);
+  padding: 80px 40px;
+  margin: 32px 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(59, 130, 196, 0.1) 0%, transparent 50%);
+  animation: heroGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-3%, 3%); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--turquoise-300) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.hero-stats {
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--turquoise-400);
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* Bubbles */
+.hero-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1px solid rgba(94, 234, 212, 0.1);
+}
+
+.bubble-1 {
+  width: 120px;
+  height: 120px;
+  top: 15%;
+  left: 8%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.bubble-2 {
+  width: 80px;
+  height: 80px;
+  top: 60%;
+  right: 12%;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.bubble-3 {
+  width: 50px;
+  height: 50px;
+  bottom: 20%;
+  left: 20%;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* ============================================
+   Search Bar (large)
+   ============================================ */
+
+.search-bar-large {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-bar-large input {
+  width: 100%;
+  padding: 16px 100px 16px 48px;
+  font-size: 1rem;
+  background: rgba(13, 27, 48, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  transition: all 0.3s;
+  font-family: var(--font-sans);
+}
+
+.search-bar-large input:focus {
+  outline: none;
+  border-color: var(--turquoise-500);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+}
+
+.search-bar-large input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-bar-large button {
+  position: absolute;
+  right: 6px;
+  background: var(--turquoise-600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: var(--font-sans);
+}
+
+.search-bar-large button:hover {
+  background: var(--turquoise-500);
+}
+
+/* ============================================
+   Categories Section
+   ============================================ */
+
+.categories-section {
+  margin-bottom: 60px;
+}
+
+.categories-section h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.category-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+}
+
+.category-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--turquoise-500);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+}
+
+.category-card-icon {
+  font-size: 3rem;
+  margin-bottom: 4px;
+}
+
+.category-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.category-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.category-card-count {
+  font-size: 0.85rem;
+  color: var(--turquoise-400);
+  font-weight: 600;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+/* ============================================
+   Category Page
+   ============================================ */
+
+.category-page {
+  padding: 24px 0;
+}
+
+.category-header {
+  margin-bottom: 32px;
+}
+
+.category-breadcrumb,
+.species-detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.breadcrumb-sep {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.category-header h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-icon {
+  font-size: 2rem;
+}
+
+.category-count {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+.category-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+}
+
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.sort-bar select {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.sort-bar select:focus {
+  outline: none;
+  border-color: var(--turquoise-500);
+}
+
+/* ============================================
+   Filter Sidebar
+   ============================================ */
+
+.filter-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  position: sticky;
+  top: 84px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.filter-reset {
+  background: none;
+  border: none;
+  color: var(--coral-400);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.filter-reset:hover {
+  color: var(--coral-500);
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group h4 {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-btn {
+  background: var(--ocean-800);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+}
+
+.filter-btn:hover {
+  background: var(--ocean-700);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--turquoise-600);
+  border-color: var(--turquoise-500);
+  color: white;
+}
+
+/* ============================================
+   Species Grid
+   ============================================ */
+
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.similar-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* ============================================
+   Species Card
+   ============================================ */
+
+.species-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+}
+
+.species-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--ocean-500);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+}
+
+.species-card-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: var(--ocean-800);
+}
+
+.species-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.species-card:hover .species-card-image img {
+  transform: scale(1.05);
+}
+
+.species-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--ocean-800), var(--ocean-700));
+}
+
+.species-card-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.species-card-name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.species-card-scientific {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.species-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tag {
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  background: var(--ocean-700);
+  color: var(--text-secondary);
+}
+
+.care-easy {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--green-500);
+}
+
+.care-moderate {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--coral-400);
+}
+
+.care-difficult {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--red-500);
+}
+
+.care-expert {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--red-500);
+}
+
+.tag-temperament {
+  background: rgba(59, 130, 196, 0.15);
+  color: var(--ocean-300);
+}
+
+.species-card-size {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* ============================================
+   Species Detail Page
+   ============================================ */
+
+.species-detail {
+  padding: 24px 0 60px;
+}
+
+.species-detail-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+  align-items: start;
+}
+
+.species-detail-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ocean-800);
+  aspect-ratio: 4/3;
+}
+
+.species-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.species-detail-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  background: linear-gradient(135deg, var(--ocean-800), var(--ocean-700));
+  min-height: 300px;
+}
+
+.species-detail-names h1 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.species-english-name {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.species-scientific {
+  font-size: 1.1rem;
+  color: var(--turquoise-400);
+  margin-bottom: 16px;
+}
+
+.species-subcategory-badge {
+  display: inline-block;
+  background: var(--ocean-700);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Info Cards Grid */
+.species-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-card-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.info-card-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.info-card-value {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Water Params */
+.species-detail-section {
+  margin-bottom: 32px;
+}
+
+.species-detail-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.water-params-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.water-param {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+}
+
+.water-param-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.water-param-value {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--turquoise-400);
+}
+
+.species-description-text,
+.species-feeding-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.species-description-text p,
+.species-feeding-text p {
+  line-height: 1.8;
+  margin: 0 0 1em 0;
+  text-align: justify;
+}
+
+.species-description-text p:last-child,
+.species-feeding-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   Search Results Page
+   ============================================ */
+
+.search-results-page {
+  padding: 32px 0 60px;
+}
+
+.search-results-header {
+  margin-bottom: 32px;
+}
+
+.search-results-header h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.search-results-header p {
+  color: var(--text-secondary);
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.no-results-hint {
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.not-found {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.not-found h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+.not-found p {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   Loading
+   ============================================ */
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--turquoise-500);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.footer {
+  background: var(--ocean-900);
+  border-top: 1px solid var(--border-color);
+  padding: 32px 24px;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.footer-icon {
+  font-size: 1.3rem;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .category-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .species-detail-header {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .navbar-links {
+    display: none;
+  }
+
+  .navbar-search input {
+    width: 160px;
+  }
+
+  .navbar-search input:focus {
+    width: 200px;
+  }
+
+  .hero {
+    padding: 48px 20px;
+    margin: 16px 0;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .category-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+    max-height: none;
+  }
+
+  .species-detail-header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .species-detail-names h1 {
+    font-size: 1.6rem;
+  }
+
+  .species-detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .species-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .main-content {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-brand .navbar-title {
+    display: none;
+  }
+
+  .search-bar-large input {
+    padding: 14px 80px 14px 40px;
+    font-size: 0.9rem;
+  }
+
+  .species-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .species-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .water-params-table {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ocean-700);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ocean-600);
+}

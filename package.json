@@ -1,0 +1,22 @@
+{
+  "name": "liveaquaria-kutuphanesi",
+  "version": "1.0.0",
+  "description": "LiveAquaria Kütüphane - Deniz canlıları veritabanı",
+  "type": "commonjs",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node --experimental-sqlite server/index.js",
+    "dev:server": "node --experimental-sqlite server/index.js",
+    "dev:site": "cd site && npm run dev",
+    "build": "cd site && npm run build",
+    "create-admin": "node --experimental-sqlite scripts/create-admin.js",
+    "import-data": "node --experimental-sqlite scripts/import-json-to-sqlite.js",
+    "merge-scraper": "node --experimental-sqlite scripts/merge-scraper.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

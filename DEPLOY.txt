@@ -1,0 +1,225 @@
+================================================================
+  RESİF KÜTÜPHANESİ — DEPLOYMENT REHBERİ (DigitalOcean VPS)
+================================================================
+
+MİMARİ
+-------
+İnternet → Nginx (80/443) → PM2 (Node.js :3001) → SQLite
+SSL: Let's Encrypt (Certbot, ücretsiz, otomatik yenileme)
+
+
+ADIM 1 — DİGİTALOCEAN DROPLET OLUŞTUR
+----------------------------------------
+1. digitalocean.com → Create Droplet
+2. Image: Ubuntu 24.04 LTS
+3. Plan: Basic → Regular → $6/ay (1 vCPU, 1GB RAM)
+4. Authentication: SSH Key veya Password
+5. Hostname: resif-kutuphanesi
+6. Droplet oluşunca IP adresini not al (örn: 134.209.xxx.xxx)
+
+
+ADIM 2 — SUNUCUYA BAĞLAN VE TEMEL KURULUM
+------------------------------------------
+# Lokal makineden bağlan:
+ssh root@134.209.xxx.xxx
+
+# Sistem güncelle:
+apt update && apt upgrade -y
+
+# Node.js 22 LTS kur (node:sqlite için 22+ gerekli):
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+apt install -y nodejs
+
+# Kontrol:
+node --version   # v22.x.x
+npm --version
+
+# PM2 kur (process manager):
+npm install -g pm2
+
+# Nginx ve Certbot kur:
+apt install -y nginx certbot python3-certbot-nginx
+
+# Güvenlik duvarı:
+ufw allow OpenSSH
+ufw allow 'Nginx Full'
+ufw enable
+
+
+ADIM 3 — KODU SUNUCUYA YÜKLE
+------------------------------
+SEÇENEK A — Git ile (önerilen):
+  # Sunucuda:
+  apt install -y git
+  cd /var/www
+  git clone https://github.com/KULLANICI/resif-kutuphanesi.git app
+  cd /var/www/app
+
+SEÇENEK B — rsync ile (git yoksa, lokal Windows'tan):
+  # Windows PowerShell veya Git Bash'ten çalıştır:
+  rsync -avz \
+    --exclude node_modules \
+    --exclude site/node_modules \
+    --exclude server/database.sqlite \
+    --exclude site/dist \
+    "/mnt/h/Spec/Liveaquaria kütüphane/" \
+    root@134.209.xxx.xxx:/var/www/app/
+
+  NOT: Windows'ta rsync için Git Bash veya WSL kullan.
+
+
+ADIM 4 — UYGULAMAYI KUR
+-------------------------
+cd /var/www/app
+
+# Server bağımlılıklarını kur:
+npm install --production
+
+# Frontend build:
+cd site && npm install && npm run build && cd ..
+
+# .env dosyası oluştur (JWT secret — güçlü ve uzun bir değer gir):
+cat > .env << 'EOF'
+JWT_SECRET=buraya-cok-uzun-ve-rastgele-bir-secret-yaz
+PORT=3001
+NODE_ENV=production
+EOF
+
+# Admin kullanıcıları oluştur:
+node --experimental-sqlite scripts/create-admin.js Tarik GUCLU_SIFRE
+node --experimental-sqlite scripts/create-admin.js Cagdas GUCLU_SIFRE
+
+# Veriyi import et (sadece ilk kurulumda):
+node --experimental-sqlite scripts/import-json-to-sqlite.js
+
+# Dosya izinleri:
+chown -R www-data:www-data /var/www/app
+chmod 664 /var/www/app/server/database.sqlite
+
+
+ADIM 5 — PM2 İLE UYGULAMAYI BAŞLAT
+-------------------------------------
+# ecosystem.config.js dosyası oluştur:
+cat > /var/www/app/ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'resif-kutuphanesi',
+    script: 'server/index.js',
+    node_args: '--experimental-sqlite',
+    env_file: '.env',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '500M',
+    error_file: '/var/log/resif/error.log',
+    out_file: '/var/log/resif/out.log',
+  }]
+};
+EOF
+
+# Log dizini oluştur:
+mkdir -p /var/log/resif
+
+# Uygulamayı başlat:
+cd /var/www/app
+pm2 start ecosystem.config.js
+
+# Sunucu yeniden başlasa bile otomatik çalışsın:
+pm2 save
+pm2 startup systemd -u root --hp /root
+# (Çıktıdaki systemctl enable ... komutunu da çalıştır)
+
+# Durum kontrol:
+pm2 status
+pm2 logs resif-kutuphanesi
+
+
+ADIM 6 — NGİNX YAPILANDIRMASI
+-------------------------------
+cat > /etc/nginx/sites-available/resif-kutuphanesi << 'EOF'
+server {
+    listen 80;
+    server_name ALAN_ADIN.com www.ALAN_ADIN.com;
+
+    client_max_body_size 20M;
+
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+
+# Aktif et:
+ln -s /etc/nginx/sites-available/resif-kutuphanesi /etc/nginx/sites-enabled/
+nginx -t          # Syntax kontrol (successful görmeli)
+systemctl reload nginx
+
+
+ADIM 7 — DOMAIN VE SSL
+------------------------
+# Önce alan adı DNS ayarı:
+#   Domain sağlayıcında A kaydı → Droplet IP adresine yönlendir
+#   5-30 dakika propagasyon bekle
+
+# Alan adı olmadan test etmek için:
+#   http://134.209.xxx.xxx  (IP ile direkt erişim)
+#   Admin: http://134.209.xxx.xxx/admin/login
+
+# SSL sertifikası (alan adı hazırsa):
+certbot --nginx -d ALAN_ADIN.com -d www.ALAN_ADIN.com
+
+# Otomatik yenileme testi:
+certbot renew --dry-run
+
+
+ADIM 8 — GÜNCELLEME (SONRAKI DEPLOYLAR)
+-----------------------------------------
+# Kod değişikliğinde sunucuda çalıştır:
+cd /var/www/app
+git pull
+cd site && npm run build && cd ..
+npm install --production   # Yeni bağımlılık varsa
+pm2 reload resif-kutuphanesi
+
+
+FAYDALI PM2 KOMUTLARI
+----------------------
+pm2 status                          # Uygulama durumu
+pm2 logs resif-kutuphanesi          # Canlı loglar
+pm2 logs resif-kutuphanesi --lines 100  # Son 100 satır log
+pm2 restart resif-kutuphanesi       # Yeniden başlat
+pm2 reload resif-kutuphanesi        # Sıfır-downtime yeniden başlat
+pm2 stop resif-kutuphanesi          # Durdur
+pm2 monit                           # CPU/RAM monitör
+
+
+GÜVENLİK NOTLARI
+-----------------
+- .env dosyasını GIT'E GÖNDERME (gitignore'da olduğundan emin ol)
+- server/database.sqlite GIT'E GÖNDERME
+- JWT_SECRET en az 32 karakter, rastgele olmalı
+- Admin şifreleri güçlü olmalı (büyük/küçük harf + rakam + özel karakter)
+- Sunucuya sadece SSH ile bağlan, şifre yerine SSH key kullan
+- Düzenli yedek: database.sqlite dosyasını yerel/S3'e kopyala
+
+
+VERİTABANI YEDEĞİ
+------------------
+# Sunucudan lokal makineye SQLite yedeği çek:
+scp root@134.209.xxx.xxx:/var/www/app/server/database.sqlite ./yedek_$(date +%Y%m%d).sqlite
+
+# Otomatik günlük yedek için cron (sunucuda):
+crontab -e
+# Şu satırı ekle (her gece 02:00'de yedek alır):
+0 2 * * * cp /var/www/app/server/database.sqlite /var/backups/resif_$(date +\%Y\%m\%d).sqlite
+
+
+================================================================
+  TAHMİNİ MASRAF: $6/ay (Droplet) + Alan adı (~$10-15/yıl)
+================================================================
