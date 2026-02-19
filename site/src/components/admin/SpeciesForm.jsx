@@ -17,7 +17,7 @@ const TRACKABLE_FIELDS = [
   'description', 'feeding',
 ];
 
-function SpeciesForm({ initialData = {}, onSubmit, submitLabel = 'Kaydet', isNew = false }) {
+function SpeciesForm({ initialData = {}, onSubmit, onSubmitAndNext, submitLabel = 'Kaydet', isNew = false }) {
   const [form, setForm] = useState({
     id: initialData.id || '',
     category: initialData.category || 'marine-fish',
@@ -51,6 +51,7 @@ function SpeciesForm({ initialData = {}, onSubmit, submitLabel = 'Kaydet', isNew
   );
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [savingNext, setSavingNext] = useState(false);
 
   function handleChange(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -68,19 +69,33 @@ function SpeciesForm({ initialData = {}, onSubmit, submitLabel = 'Kaydet', isNew
     );
   }
 
+  function buildPayload() {
+    return { ...form, manually_edited_fields: editedFields };
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
     setSaving(true);
-
-    const payload = { ...form, manually_edited_fields: editedFields };
-
     try {
-      await onSubmit(payload);
+      await onSubmit(buildPayload());
     } catch (err) {
       setError(err.message || 'Kaydetme hatası');
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleSubmitAndNext(e) {
+    e.preventDefault();
+    setError('');
+    setSavingNext(true);
+    try {
+      await onSubmitAndNext(buildPayload());
+    } catch (err) {
+      setError(err.message || 'Kaydetme hatası');
+    } finally {
+      setSavingNext(false);
     }
   }
 
@@ -373,9 +388,20 @@ function SpeciesForm({ initialData = {}, onSubmit, submitLabel = 'Kaydet', isNew
       )}
 
       <div className="admin-form-actions">
-        <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>
+        <button type="submit" className="admin-btn admin-btn-primary" disabled={saving || savingNext}>
           {saving ? 'Kaydediliyor...' : submitLabel}
         </button>
+
+        {onSubmitAndNext && (
+          <button
+            type="button"
+            className="admin-btn admin-btn-secondary"
+            disabled={saving || savingNext}
+            onClick={handleSubmitAndNext}
+          >
+            {savingNext ? 'Kaydediliyor...' : 'Kaydet ve Sonraki →'}
+          </button>
+        )}
       </div>
     </form>
   );

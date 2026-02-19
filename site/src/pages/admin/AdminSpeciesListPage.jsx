@@ -31,15 +31,22 @@ function AdminSpeciesListPage() {
   const [sortKey, setSortKey] = useState('name_tr');
   const [sortDir, setSortDir] = useState('asc');
 
-  // Pagination
-  const [page, setPage] = useState(1);
-
   const category = searchParams.get('category') || '';
   const search = searchParams.get('search') || '';
 
+  // Pagination — kept in URL so edit→back preserves position
+  const page = parseInt(searchParams.get('page') || '1', 10);
+
+  function setPage(newPage) {
+    const params = {};
+    if (category) params.category = category;
+    if (search) params.search = search;
+    if (newPage > 1) params.page = String(newPage);
+    setSearchParams(params);
+  }
+
   const fetchSpecies = useCallback(() => {
     setLoading(true);
-    setPage(1);
     let url = '/api/species?limit=9999';
     if (category) url += `&category=${encodeURIComponent(category)}`;
     if (search) url += `&search=${encodeURIComponent(search)}`;
@@ -55,9 +62,6 @@ function AdminSpeciesListPage() {
 
   useEffect(() => { fetchSpecies(); }, [fetchSpecies]);
   useEffect(() => { setSearchInput(search); }, [search]);
-
-  // Reset to page 1 when sort changes
-  useEffect(() => { setPage(1); }, [sortKey, sortDir]);
 
   function handleCategoryChange(cat) {
     const params = {};
@@ -217,6 +221,13 @@ function AdminSpeciesListPage() {
                         <td className="admin-actions">
                           <Link
                             to={`/admin/tur/${s.id}`}
+                            state={{
+                              ids: sorted.map((sp) => sp.id),
+                              index: sorted.findIndex((sp) => sp.id === s.id),
+                              page,
+                              category,
+                              search,
+                            }}
                             className="admin-btn admin-btn-sm admin-btn-secondary"
                           >
                             Düzenle

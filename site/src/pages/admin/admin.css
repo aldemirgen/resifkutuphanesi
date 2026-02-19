@@ -681,3 +681,17 @@
 .admin-change-password-box {
   max-width: 600px;
 }
+
+/* Species edit page — prev/next navigation */
+.admin-species-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-species-nav-position {
+  font-size: 0.8rem;
+  color: var(--admin-text-muted);
+  min-width: 4rem;
+  text-align: center;
+}
